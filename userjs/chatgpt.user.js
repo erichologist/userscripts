@@ -9,6 +9,7 @@
 // @match        https://chat.openai.com/*
 // @match        https://chatgpt.com/*
 // @grant        none
+// @downloadURL  https://github.com/erichologist/userscripts/raw/refs/heads/main/userjs/chatgpt.user.js
 // ==/UserScript==
 
 (function() {
