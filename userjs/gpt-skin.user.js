@@ -27,7 +27,7 @@
 // @connect      *
 // @run-at       document-start
 // @noframes
-// @downloadURL  https://github.com/erichologist/userscripts.git
+// @downloadURL  https://github.com/erichologist/userscripts/raw/refs/heads/main/userjs/gpt-skin.user.js
 // ==/UserScript==
 
 (() => {
