@@ -27,6 +27,7 @@
 // @connect      *
 // @run-at       document-start
 // @noframes
+// @downloadURL  https://github.com/erichologist/userscripts.git
 // ==/UserScript==
 
 (() => {
