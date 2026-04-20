@@ -11,8 +11,8 @@
 // @run-at       document-start
 // @license      MIT
 // @icon         https://raw.githubusercontent.com/erichologist/SVGs/refs/heads/main/Reddit.Alien.Orange.Animated.Loop.svg
-// @downloadURL https://update.greasyfork.org/scripts/479271/Old%20Reddit%20Redirect.user.js
-// @updateURL https://update.greasyfork.org/scripts/479271/Old%20Reddit%20Redirect.meta.js
+// @downloadURL  https://github.com/erichologist/userscripts/raw/refs/heads/main/userjs/oldreddit.user.js
+// @updateURL    https://github.com/erichologist/userscripts/raw/refs/heads/main/userjs/oldreddit.user.js
 // ==/UserScript==
 
 const use_optimization = true;
