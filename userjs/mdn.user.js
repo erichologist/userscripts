@@ -9,6 +9,8 @@
 // @match        *://*developer.mozilla.org/*
 // @match        https://developer.mozilla.org/*
 // @grant        GM_addStyle
+// @downloadURL  https://github.com/erichologist/userscripts/raw/refs/heads/main/userjs/mdn.user.js
+// @updateURL    https://github.com/erichologist/userscripts/raw/refs/heads/main/userjs/mdn.user.js
 // ==/UserScript==
 (function () {
     'use strict';
