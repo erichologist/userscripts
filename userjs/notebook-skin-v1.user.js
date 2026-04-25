@@ -7,6 +7,7 @@
 // @include  *://*notebooklm.google.com/*
 // @match   *://*notebooklm.google.com/*
 // @grant        GM_addStyle
+// @downloadURL  https://github.com/erichologist/userscripts/raw/refs/heads/main/userjs/notebook-skin-v1.user.js
 // ==/UserScript==
 (function () {
     'use strict';
