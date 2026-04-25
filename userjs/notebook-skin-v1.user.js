@@ -1,0 +1,227 @@
+// ==UserScript==
+// @name         Notebook Skin v1
+// @version      1.0
+// @description  Making new look.
+// @author       👾
+// @icon         https://raw.githubusercontent.com/erichologist/SVGs/refs/heads/main/books-animatedloop.svg
+// @include  *://*notebooklm.google.com/*
+// @match   *://*notebooklm.google.com/*
+// @grant        GM_addStyle
+// ==/UserScript==
+(function () {
+    'use strict';
+    const stylesheet = `
+@import url("https://fonts.googleapis.com/css2?family=Nova+Mono&display=swap");
+@font-face {
+  font-family: "Nova Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/novamono/v23/Cn-0JtiGWQ5Ajb--MRKvZGZZj9AtS06w.woff2) format("woff2");
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;}
+@font-face {
+  font-family: "Nova Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/novamono/v23/Cn-0JtiGWQ5Ajb--MRKvaWZZj9AtS06w.woff2) format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;}
+@font-face {
+  font-family: "Nova Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/novamono/v23/Cn-0JtiGWQ5Ajb--MRKvZ2ZZj9AtSw.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;}
+html, body, code { font-family: "Nova Mono", NovaMono, monospace !important !important;
+}
+code-block-element-view, .flex.h-svh.w-screen.flex-col {
+  font-family: "Nova Mono", NovaMono, monospace !important !important;
+   padding:2vh 2vw !important !important;
+   width:75vw !important !important;
+   font-size:80% !important;
+   border-radius: 20px !important !important;
+   background: linear-gradient(180deg, #000000, #262626) !important !important;
+   box-shadow: 0 0 9px #0006, 0 0 18px #0006 !important !important;
+   margin:1vh auto !important !important;
+}
+div.chat-panel-content {
+   box-shadow: 0 0 12px #0005, 0 0 22px #0004 !important !important;
+   background: #363636 !important !important;
+   color:#ffffff !important !important;
+padding-block-start:15px !important !important;
+padding-inline-start:15px !important !important;
+padding-block-end:15 !important !important;
+padding-inline-end:15 !important !important;
+}
+.mat-mdc-card.mdc-card.from-user-message-card-content {
+  background: rgba(255,255,255,0.08) !important !important;
+  color:#FFF !important !important;
+  backdrop-filter: blur(10.5px) !important;
+  -webkit-backdrop-filter: blur(10.5px) !important !important;
+  box-shadow: inset -.1px -.3px 1px .2px rgba(255, 255, 255, 0.25), inset .1px .3px 1px .2px rgba(255, 255, 255, 0.25), 0 5px 30px rgba(0,0,0,0.2), inset 0 5px 30px rgba(255,255,255,0.2), inset 0 0 12px rgba(255, 255, 255, 0.15) !important !important;
+}
+.to-user-container {
+padding-block-end:15 !important !important;
+padding-inline-end:15 !important !important;
+}
+.omnibar-container, .query-box-container, .bottom-container {
+  background:none !important !important;
+  background-color: rgba(255,255,255,0.04) !important !important;
+  backdrop-filter: blur(10.5px) !important !important;
+  -webkit-backdrop-filter: blur(10.5px) !important !important;
+  box-shadow: inset -.1px -.3px 1px .2px rgba(255, 255, 255, 0.25), inset .1px .3px 1px .2px rgba(255, 255, 255, 0.25), 0 5px 30px rgba(0,0,0,0.05), inset 0 5px 30px rgba(255,255,255,0.2), inset 0 0 12px rgba(255, 255, 255, 0.15) !important !important; 
+  color:#000 !important !important;
+}
+omnibar, mat-tab-body, mat-tab-group, foot {
+  background:none !important !important;
+  background-color: rgba(0,0,0,0.1) !important !important;
+  backdrop-filter: blur(10.5px) !important !important;
+  -webkit-backdrop-filter: blur(10.5px) !important !important;
+}
+footer {
+  background:none !important !important;
+  background-color: rgba(0,0,0,0.1) !important !important;
+  backdrop-filter: blur(10.5px) !important !important;
+  -webkit-backdrop-filter: blur(10.5px) !important !important;
+}
+labs-tailwind-root, form.form, textarea, .message-container, .input-group, omnibar, .omnibar-container, .query-box-container, .bottom-container {
+background:none !important !important;
+background-color:none !important !important;
+background-image:none !important !important;
+}
+:is(code,.ͼr,.ͼq,.ͼu,.ͼv,.ͼs,pre){
+  font-family: "Nova Mono", NovaMono, monospace !important !important;    
+  background: linear-gradient(180deg, #11111100, #39393900) !important !important;
+  overflow-x:auto !important !important;
+}
+:is(.ͼq,pre) {
+  color:#03e9f4F1 !important !important;
+  text-shadow:0 0 0 #FFF, 0 0 5px #0F07FF66, 0 -0.1px 3.5px #00E95266, 0 0 8px #5E60CE66, 0 -1px 9px #0F07FF66, 0 1px 8px #3457D566, 0 0 4px #00D9E066 !important !important;
+}
+textarea.cdk-textarea-autosize.mat-mdc-autocomplete-trigger.query-box-input.ng-pristine.ng-invalid.ng-touched {color:#000 !important !important; background:none !important !important;
+}
+.token{text-shadow:none !important;
+}
+.token.atrule{text-shadow:0 0 2px #061338, 0 0 8px #2F079975, 0 0 2px #AE81FF75 !important;color:#AE81FF !important;
+}
+.token.attr-name{text-shadow:0 0 0 #FFF, 0 0 5px #0F07FF60, 0 -.1px 3.5px #00E95260, 0 0 8px #5E60CE60, 0 -1px 9px #0F07FF60, 0 1px 8px #3457D560, 0 0 4px #00D9E060 !important;color:#00D9E0CC !important;
+}
+.token.attr-value{color:#F87C32CC !important;text-shadow:0 0 #FA0C, .31px 0 2px #FF058B80, -.31px 0 2.2px #FF058B80, 0 0 3px #FFBF0066, 0 0 .6em #F0A,0 0 .6em #400 !important;
+}
+.lang-html .token.attr-value, .language-html .token.attr-value{color:var(--html-attr-value) !important;text-shadow:var(--sh-html-attr-value) !important;
+}
+.token.block-comment {font-family:var(--cart-thin) !important;color:var(--block-comment) !important;background-color:var(--bg-block-comment) !important;padding-top:2px !important;padding-bottom:2px !important;border-radius:7px !important;
+}
+.token.boolean{text-shadow:0 0 2px #001716, 0 0 3px #03EDF975, 0 0 5px #03EDF975, 0 0 8px #03EDF975 !important;color:#FDFDFD !important;
+}
+.token.builtin{text-shadow:0 0 2px #393A33, 0 0 8px #F39F0575, 0 0 2px #F39F0575 !important;color:#0F0 !important;
+}
+.token.cdata{color:#999 !important;
+}
+.token.char{color:#F87C32 !important;
+}
+.token.comment {display:inline-block !important;color:#797979 !important;font-family:var(--dico) !important;background:linear-gradient(90deg, #0000, #0001, #0001, #0000, #0000) !important;margin:0 !important;padding:2px 0 2px 0 !important;border-radius:7px !important;white-space:pre-line !important;word-spacing:-.1ch !important;letter-spacing:0ch !important;
+}
+.token.comment:hover{color:#BBB !important;background:linear-gradient(90deg, #0004, #0008, #0008, #0004) !important;
+}
+.token.constant{text-shadow:0 0 2px #100C0F, 0 0 5px #DC078E33, 0 0 8px #FFF3 !important;color:#F92AAD !important;
+}
+.token.deleted{color:#E2777A !important;
+}
+.token.doctype{color:#999 !important;
+}
+.token.entity{color:#B5E108 !important;cursor:help !important;
+}
+.token.function{color:#FDFDFD !important;text-shadow:0 0 2px #001716, 0 0 3px #03EDF975,0 0 5px #03EDF975, 0 0 8px #03EDF975 !important;
+}
+.token.function-name{color:#6196CC !important;
+}
+.token.hexcode{color:#00FBD0 !important;
+}
+.token.important{text-shadow:0 0 0 #FFFC, 0 0 2px #FFBF0066, 0 -.1px 3px #C5D02566, 0 0 4px #E62E2E44, 0 -1px 5px #E0CB5266, 0 1px 6px #DDFF0544, 0 0 7px #00D9E066 !important;color:#FE0C !important;
+}
+.token.inserted{color:#B5E108 !important;
+}
+.token.keyword2{color:#00FBD0 !important;
+}
+.token.keyword{color:#FE0C !important;text-shadow:0 0 0 #FFFC, 0 0 2px #FFBF0044, 0 -.1px 3px #C5D02544, 0 0 4px #E62E2E44, 0 -1px 5px #E0CB5244, 0 1px 6px #DDFF0566, 0 0 7px #00D9E044 !important;
+}
+.token.namespace2{opacity:.7 !important;color:#92577E !important;
+}
+.token.namespace{color:#92577EB3 !important;
+}
+.token.number{color:#0EDDFF !important;
+}
+.token.operator{color:#67CDCC !important;
+}
+.token.pseudo-class{text-shadow:0 0 0 #FFF,0 0 5px #0F07FF66,0 -.1px 3.5px #00E95266,0 0 8px #5E60CE66,0 -1px 9px #0F07FF66,0 1px 8px #3457D566,0 0 4px #00D9E066 !important;color:#00D9E0CC !important;
+}
+.token.pseudo-element{text-shadow:0 0 0 #00FF0080, 0 0 2px #00D9E044, 0 0 2.5px #3D4DFF80, 0 -.1px 3px #00E95244, 0 0 3.5px #5E60CE44, 0 -1px 4px #0F07FF44, 0 1px 4.5px #3457D544, 0 0 5px #00D9E044, 0 0 0 #00FF00 !important;color:#01FBAECC !important;
+}
+.token.punctuation2{color:#DDFF05 !important;
+}
+.token.combinator, .token.punctuation{text-shadow:0 0 0 #FFFC, 0 0 2px #FFBF0066, 0 -.1px 3px #C5D02566, 0 0 4px #E62E2E44, 0 -1px 5px #E0CB5266, 0 1px 6px #DDFF0544, 0 0 7px #00D9E066 !important;color:#FE0C !important;
+}
+.token.prolog{color:#999 !important;
+}
+.token.property{text-shadow:0 0 0 #FFF, 0 0 .12081em #FFF6, 0 0 .16121em #FFF6, 0 1px .342em #FFF6, 0 0 .342em #0006 !important;color:#CCCC !important;
+}
+.token.regex{color:#B5E108 !important;
+}
+.token.selector{text-shadow:0 0 0 #FFFFFFCC, 0 0 .26em #0F07FF80, 0 0 .45em #4530FF66, 0 -.1px .3em #DC078E66, 0 0 .26em #5546DB44, 0 0 .36em #DE00FF66, 0 0 .2em #DE00FF66 !important;color:#FF33A0 !important;
+}
+.token.selector .token.id{color:#FF02BEEE !important;text-shadow:0 0 #FA0C, .31px 0 2px #FF058B80, -.31px 0 2.2px #FF058B80, 0 0 3px #FFBF0066, 0 0 .6em #F0A,0 0 .6em #400 !important;
+}
+.token.selector .token.class{text-shadow:0 0 0 #FF058BA1, 0 0 1.3px #FF005E66, 0 0 1.5px #00197A, 0 0 1.7px #FF057B, 0 0 2px #000 !important;color:#FF005EA1 !important;
+}
+.token.string{color:#EBD567 !important;
+}
+.token.symbol{text-shadow:0 0 2px #100C0F, 0 0 5px #DC078E33, 0 0 8px #FFF3 !important;color:#F92AAD !important;
+}
+.token.tag{text-shadow:0 -2px 2px #C408BB22, 0 1px 2px #FF008044 !important;color:#FF0080 !important;
+}
+.token.unit{text-shadow:0 0 0 #FFF8, 0 0 2px #00171680, 0 0 3px #00FF1180, 0 0 4.5px #00FC !important;color:#B5E108CC !important;
+}
+.token.url{color:#00CCFF !important;
+}
+.token.variable{color:#B5E108 !important;
+}
+.lang-css .token.string, .language-css .token.string{color:#EBD567 !important;
+}
+.lang-css .token.string .language-css .token.string, .language-css .token.string, .lang-css .token.string{color:#EBD567 !important;
+}
+.lang-json .token.string, .lang-JSON .token.string, .language-json .token.string, .language-JSON .token.string{color:#00D1C9 !important;
+}
+.lang-JS .token.string, .language-JS .token.string, .lang-js .token.string, .language-js .token.string, .lang-javascript .token.string, .language-javascript .token.string, .lang-JavaScript .token.string, .language-JavaScript .token.string{color:#0FA !important;
+}
+.token.string.url{text-shadow:0 0 0 #E0CB52, 0 0 4.5px #FFBF0044, 0 1px 3px #EE04, 0 0 3.1px #FFBF0044, 0 -1px 3.5px #E0CB5244, 0 0 2.7px #EE04, 0 0 5px #E62E2E44 !important;color::#FFFFFFA1 !important;
+}
+.token.bold{color:#5972FF !important;
+}
+.white{color:#AAAC !important;text-shadow:0 0 0 #FFF, 0 0 1px #FFF2, 0 -2px 2px #FFF2, 0 1px 2px #FFF2 !important;
+}
+`;
+
+    // Apply styles
+    const styleElement = document.createElement("style");
+    styleElement.type = "text/css";
+    styleElement.innerHTML = stylesheet;
+    document.body.appendChild(styleElement);
+
+    // Theme change function
+    function changePageTheme() {
+        const cc = document.body.className;
+        if (cc.indexOf("darktheme") > -1) {
+            document.body.className = cc.replace("darktheme", "");
+            localStorage.setItem("preferredmode", "light");
+        } else {
+            document.body.className += " darktheme";
+            localStorage.setItem("preferredmode", "dark");
+        }
+    }
+    // Uncomment to call the theme function if needed
+    // changePageTheme();
+})();
+
+
