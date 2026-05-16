@@ -116,7 +116,7 @@
     GM_setValue('menu_customTime', customTime);
     sanitizeStoredCustomModes();
 
-    if (!menu_disable('check') && !(GM_getValue('menu_darkModeAuto') && !window.matchMedia('(prefers-color-scheme: dark)').matches)) {addStyle();}
+    if (shouldApplyStyleOnStartup()) {addStyle();}
 
     function registerMenuCommand() {
         if (menu_ID.length > 0){
@@ -575,12 +575,19 @@
     }
 
     function sanitizeStoredCustomModes() {
-        let mode1 = sanitizeCustomModeInput(1, GM_getValue('menu_customMode1', '60|50')),
-            mode2 = sanitizeCustomModeInput(2, GM_getValue('menu_customMode2', '60|40|50|50')),
-            mode3 = sanitizeCustomModeInput(3, GM_getValue('menu_customMode3', '90'));
-        GM_setValue('menu_customMode1', mode1 || '60|50');
-        GM_setValue('menu_customMode2', mode2 || '60|40|50|50');
-        GM_setValue('menu_customMode3', mode3 || '90');
+        let currentMode1 = GM_getValue('menu_customMode1', '60|50'),
+            currentMode2 = GM_getValue('menu_customMode2', '60|40|50|50'),
+            currentMode3 = GM_getValue('menu_customMode3', '90'),
+            mode1 = sanitizeCustomModeInput(1, currentMode1) || '60|50',
+            mode2 = sanitizeCustomModeInput(2, currentMode2) || '60|40|50|50',
+            mode3 = sanitizeCustomModeInput(3, currentMode3) || '90';
+        if (mode1 !== currentMode1) GM_setValue('menu_customMode1', mode1);
+        if (mode2 !== currentMode2) GM_setValue('menu_customMode2', mode2);
+        if (mode3 !== currentMode3) GM_setValue('menu_customMode3', mode3);
+    }
+
+    function shouldApplyStyleOnStartup() {
+        return !menu_disable('check') && !(GM_getValue('menu_darkModeAuto') && !window.matchMedia('(prefers-color-scheme: dark)').matches);
     }
 
     function isDaytime() {
