@@ -105,14 +105,20 @@
     registerMenuCommand();
 
     // transitional: ensure time is in HH:MM format
-    if (GM_getValue('menu_customTime', '').indexOf(':') === -1) {
-        GM_setValue('menu_customTime', GM_getValue('menu_customTime', '6|18').replace('|',':00|') + ':00');
+    let customTime = GM_getValue('menu_customTime', '6:00|18:00');
+    if (customTime.indexOf(':') === -1 && customTime.indexOf('|') > -1) {
+        customTime = customTime.replace('|',':00|') + ':00';
     }
+    if (!isValidTimeRange(customTime)) {
+        customTime = '6:00|18:00';
+    }
+    GM_setValue('menu_customTime', customTime);
+    sanitizeStoredCustomModes();
 
-    if (menu_ID.length > 1) {addStyle();}
+    if (!menu_disable('check') && !(GM_getValue('menu_darkModeAuto') && !window.matchMedia('(prefers-color-scheme: dark)').matches)) {addStyle();}
 
     function registerMenuCommand() {
-        if (menu_ID.length != []){
+        if (menu_ID.length > 0){
             for (let i=0;i<menu_ID.length;i++){
                 GM_unregisterMenuCommand(menu_ID[i]);
             }
@@ -183,8 +189,10 @@
         if (newAutoSwitch === '') {
             GM_setValue('menu_autoSwitch', '');
         } else if (newAutoSwitch != null) {
-            if (newAutoSwitch.split('|').length == 2) {
-                GM_setValue('menu_autoSwitch', newAutoSwitch);
+            let modePair = sanitizeModePair(newAutoSwitch);
+            if (modePair) {
+                GM_setValue('menu_autoSwitch', modePair);
+                sanitizeStoredCustomModes();
             } else {
                 alert(i18n.prompt.formatError);
             }
@@ -232,8 +240,13 @@
             GM_setValue(`${name}`, defaults);
             registerMenuCommand();
         } else if (newMods != null) {
-            GM_setValue(`${name}`, newMods);
-            registerMenuCommand();
+            let validatedMods = sanitizeCustomModeInput(getAutoSwitch(), newMods);
+            if (validatedMods) {
+                GM_setValue(`${name}`, validatedMods);
+                registerMenuCommand();
+            } else {
+                alert(i18n.prompt.formatError);
+            }
         }
         if (getAutoSwitch() == 3) {
             tip = i18n.prompt.mode3Exclude;
@@ -260,8 +273,12 @@
             GM_setValue('menu_customTime', '6:00|18:00');
             registerMenuCommand();
         } else if (newMods != null) {
-            GM_setValue('menu_customTime', newMods);
-            registerMenuCommand();
+            if (isValidTimeRange(newMods)) {
+                GM_setValue('menu_customTime', newMods);
+                registerMenuCommand();
+            } else {
+                alert(i18n.prompt.formatError);
+            }
         }
     }
 
@@ -444,7 +461,7 @@
                     clearInterval(timer1);
                     document.lastElementChild.appendChild(style_Add).textContent = style;
                 }
-            });
+            }, 100);
         }
 
         let websiteList = [];
@@ -488,7 +505,7 @@
                     }
                 }, 1500);
             }
-        });
+        }, 100);
 
         if (location.hostname === 'bbs.pcbeta.com') {
             let timer1 = setInterval(function(){
@@ -496,7 +513,7 @@
                     document.lastElementChild.appendChild(style_Add).textContent = style;
                     clearInterval(timer1);
                 }
-            });
+            }, 100);
         }
     }
 
@@ -509,6 +526,60 @@
     function getColorValue(e) {
         let rgbValueArry = window.getComputedStyle(e).backgroundColor.replace(/rgba|rgb|\(|\)| /g, '').split(',');
         return parseInt(rgbValueArry[0] + rgbValueArry[1] + rgbValueArry[2]);
+    }
+
+    function isValidTimeRange(input) {
+        return /^([01]?\d|2[0-3]):([0-5]\d)\|([01]?\d|2[0-3]):([0-5]\d)$/.test(input);
+    }
+
+    function clampInteger(input, min, max) {
+        let value = parseInt(input, 10);
+        if (Number.isNaN(value)) return null;
+        return Math.min(max, Math.max(min, value));
+    }
+
+    // Validate and clamp user-provided filter parameters to keep CSS safe.
+    function sanitizeCustomModeInput(mode, value) {
+        let parts = value.split('|').map(item => item.trim());
+        if (mode === 1) {
+            if (parts.length !== 2) return null;
+            let dayBrightness = clampInteger(parts[0], 1, 100),
+                nightBrightness = clampInteger(parts[1], 1, 100);
+            if (dayBrightness === null || nightBrightness === null) return null;
+            return `${dayBrightness}|${nightBrightness}`;
+        } else if (mode === 2) {
+            if (parts.length !== 4) return null;
+            let dayBrightness = clampInteger(parts[0], 1, 100),
+                dayWarmth = clampInteger(parts[1], 1, 100),
+                nightBrightness = clampInteger(parts[2], 1, 100),
+                nightWarmth = clampInteger(parts[3], 1, 100);
+            if (dayBrightness === null || dayWarmth === null || nightBrightness === null || nightWarmth === null) return null;
+            return `${dayBrightness}|${dayWarmth}|${nightBrightness}|${nightWarmth}`;
+        } else if (mode === 3) {
+            if (parts.length !== 1) return null;
+            let invertValue = clampInteger(parts[0], 50, 100);
+            if (invertValue === null) return null;
+            return `${invertValue}`;
+        }
+        return null;
+    }
+
+    function sanitizeModePair(value) {
+        let parts = value.split('|').map(item => item.trim());
+        if (parts.length !== 2) return null;
+        let dayMode = clampInteger(parts[0], 1, 3),
+            nightMode = clampInteger(parts[1], 1, 3);
+        if (dayMode === null || nightMode === null) return null;
+        return `${dayMode}|${nightMode}`;
+    }
+
+    function sanitizeStoredCustomModes() {
+        let mode1 = sanitizeCustomModeInput(1, GM_getValue('menu_customMode1', '60|50')),
+            mode2 = sanitizeCustomModeInput(2, GM_getValue('menu_customMode2', '60|40|50|50')),
+            mode3 = sanitizeCustomModeInput(3, GM_getValue('menu_customMode3', '90'));
+        GM_setValue('menu_customMode1', mode1 || '60|50');
+        GM_setValue('menu_customMode2', mode2 || '60|40|50|50');
+        GM_setValue('menu_customMode3', mode3 || '90');
     }
 
     function isDaytime() {
