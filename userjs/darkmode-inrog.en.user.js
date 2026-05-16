@@ -4,7 +4,6 @@
 // @author       drkm
 // @description  Simple and effective network-wide eye protection mode (night mode, dark mode, black mode)
 // @match        *://*/*
-// @exclude      https://live.bilibili.com/*
 // @icon         https://github.com/erichologist/SVGs/raw/refs/heads/main/Moon.Pink.svg
 // @grant        GM_registerMenuCommand
 // @grant        GM_unregisterMenuCommand
