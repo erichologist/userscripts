@@ -16,6 +16,7 @@
 // @noframes
 // @license      GPL-3.0 License
 // @run-at       document-start
+// @downloadURL  https://github.com/erichologist/userscripts/raw/refs/heads/main/userjs/darkmode-inrog.en.user.js
 // ==/UserScript==
 
 (function() {
