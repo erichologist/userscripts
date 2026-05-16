@@ -106,8 +106,9 @@
 
     // transitional: ensure time is in HH:MM format
     let customTime = GM_getValue('menu_customTime', '6:00|18:00');
-    if (customTime.indexOf(':') === -1 && customTime.indexOf('|') > -1) {
-        customTime = customTime.replace('|',':00|') + ':00';
+    if (/^\d{1,2}\|\d{1,2}$/.test(customTime)) {
+        let legacyParts = customTime.split('|');
+        customTime = `${legacyParts[0]}:00|${legacyParts[1]}:00`;
     }
     if (!isValidTimeRange(customTime)) {
         customTime = '6:00|18:00';
